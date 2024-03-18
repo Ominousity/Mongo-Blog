@@ -1,6 +1,0 @@
-@Mongo_Blog_Gateway_HostAddress = http://localhost:5208
-
-GET {{Mongo_Blog_Gateway_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
