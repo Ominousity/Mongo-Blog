@@ -14,7 +14,7 @@ public class BlogController : ControllerBase
         _blogService = blogService;
     }
 
-    [HttpGet("Blog")]
+    [HttpGet("GetBlogs")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<Blog>>> GetBlogs()
     {
@@ -23,7 +23,7 @@ public class BlogController : ControllerBase
         return Ok(blogs);
     }
 
-    [HttpGet("Blog/{id}")]
+    [HttpGet("GetBlog/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<Blog>> GetBlog(int id)
     {
@@ -32,7 +32,7 @@ public class BlogController : ControllerBase
         return Ok(blog);
     }
 
-    [HttpPost("Blog")]
+    [HttpPost("CreateBlog")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<Blog>> CreateBlog(Blog blog)
     {
@@ -41,7 +41,7 @@ public class BlogController : ControllerBase
         return CreatedAtAction(nameof(GetBlog), new { id = newBlog.BlogId }, newBlog);
     }
 
-    [HttpPut("Blog/{id}")]
+    [HttpPut("UpdateBlog")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<Blog>> UpdateBlog(Blog blog)
     {
@@ -50,7 +50,7 @@ public class BlogController : ControllerBase
         return Ok(updatedBlog);
     }
 
-    [HttpDelete("api/blogs/{id}")]
+    [HttpDelete("DeleteBlog/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> DeleteBlog(int id)
     {

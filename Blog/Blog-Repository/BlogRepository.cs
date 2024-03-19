@@ -1,10 +1,10 @@
 ﻿using Domain;
-using MongoDB.Bson;
+using Blog_Application;
 using MongoDB.Driver;
 
 namespace Blog_Repository;
 
-public class BlogRepository
+public class BlogRepository : IBlogRepository
 {
     public IMongoCollection<Blog> collection;
 
@@ -18,30 +18,40 @@ public class BlogRepository
 
     public async Task<List<Blog>> GetBlogs()
     {
-        List<Blog> blogs = await Task.Run(() => collection.AsQueryable().ToList());
-
-        return blogs;
+        return await Task.Run(() => 
+            collection.AsQueryable()
+            .ToList()
+        );
     }
 
-    public Task<Blog> GetBlog(int id)
+    public async Task<Blog> GetBlog(int id)
     {
-        Blog blog = collection.Find(b => b.BlogId == id).FirstOrDefault();
-
-        return Task.FromResult(blog);
+        return await Task.Run(() => 
+            collection.Find(b => b.BlogId == id)
+            .FirstOrDefault()
+        );
     }
 
-    public Task<Blog> CreateBlog(Blog blog)
+    public async Task<Blog> CreateBlog(Blog blog)
     {
-        throw new NotImplementedException();
+        return await Task.Run(() => {
+            collection.InsertOne(blog);
+            return blog;
+        });
     }
 
     public Task<Blog> UpdateBlog(Blog blog)
     {
-        throw new NotImplementedException();
+        return Task.Run(() => {
+            collection.ReplaceOne(b => b.BlogId == blog.BlogId, blog);
+            return blog;
+        });
     }
 
     public Task DeleteBlog(int id)
     {
-        throw new NotImplementedException();
+        return Task.Run(() => {
+            collection.DeleteOne(b => b.BlogId == id);
+        });
     }
 }
